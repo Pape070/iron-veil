@@ -126,8 +126,26 @@ else
     git remote add origin "https://github.com/$OWNER/$REPO_NAME.git"
 fi
 
-git push -u origin "HEAD:main"
-echo "Pushed to https://github.com/$OWNER/$REPO_NAME"
+# A repository that was auto-initialised (or seeded with a README through the
+# GitHub API) already has a main commit this history is unrelated to, so the
+# first push is rejected. Fall back to replacing that seed commit.
+push_main() { git push -u origin "HEAD:main"; }
+
+if push_main; then
+    echo "Pushed to https://github.com/$OWNER/$REPO_NAME"
+else
+    echo
+    echo "Remote main has commits this history is unrelated to (a README seed commit)."
+    echo "Replacing it with --force-with-lease..."
+    git fetch origin main --quiet || true
+    if git push -u origin "HEAD:main" --force-with-lease; then
+        echo "Pushed to https://github.com/$OWNER/$REPO_NAME (seed commit replaced)"
+    else
+        echo "Push failed. Resolve manually:" >&2
+        echo "  git fetch origin main && git push --force-with-lease origin HEAD:main" >&2
+        exit 1
+    fi
+fi
 
 # Optional: a project board named after the game (needs the `project` scope).
 if command -v gh >/dev/null 2>&1; then
