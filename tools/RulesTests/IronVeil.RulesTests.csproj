@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Compiles the exact same source files Unity compiles for the IronVeil.Rules
+    assembly together with the EditMode tests, so balance and rule logic can be
+    verified with `dotnet test` without launching the Editor.
+
+    LangVersion is pinned to 9.0 because that is what Unity 6 compiles with; that
+    way anything the local build accepts is also valid inside Unity.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>IronVeil.RulesTests</AssemblyName>
+    <RootNamespace>IronVeil.Tests</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The Unity rules assembly source (no UnityEngine references) -->
+    <Compile Include="../../Assets/_Project/Scripts/Rules/**/*.cs" />
+    <!-- The shared EditMode tests, also runnable inside Unity -->
+    <Compile Include="../../Assets/_Project/Tests/EditMode/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

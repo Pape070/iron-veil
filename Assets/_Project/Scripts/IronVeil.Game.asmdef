@@ -1,0 +1,18 @@
+{
+    "name": "IronVeil.Game",
+    "rootNamespace": "IronVeil",
+    "references": [
+        "IronVeil.Rules",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

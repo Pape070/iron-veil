@@ -1,0 +1,19 @@
+{
+    "name": "IronVeil.Editor",
+    "rootNamespace": "IronVeil.EditorTools",
+    "references": [
+        "IronVeil.Game",
+        "IronVeil.Rules"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Designer facing balance report. Compiles the same rules sources as Unity and
+    prints per chapter numbers: player stats, weapon DPS, boss time to kill and
+    hits to die. Run it from the repo root with:
+      dotnet run (inside tools/BalanceReport)
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>IronVeil.BalanceReport</AssemblyName>
+    <RootNamespace>IronVeil.Tools</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../Assets/_Project/Scripts/Rules/**/*.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+
+</Project>
