@@ -68,9 +68,13 @@ echo "Branch:     $(git rev-parse --abbrev-ref HEAD) -> main"
 echo
 
 create_repo_with_gh() {
-    gh repo view "$OWNER/$REPO_NAME" >/dev/null 2>&1 && return 1
-    gh repo create "$OWNER/$REPO_NAME" $VISIBILITY \
-        --description "$REPO_DESCRIPTION" >/dev/null
+    if gh repo view "$OWNER/$REPO_NAME" >/dev/null 2>&1; then
+        return 1
+    fi
+    if ! gh repo create "$OWNER/$REPO_NAME" $VISIBILITY \
+        --description "$REPO_DESCRIPTION" >/dev/null; then
+        return 2
+    fi
     return 0
 }
 
@@ -101,7 +105,17 @@ create_repo_with_api() {
 
 CREATED=0
 if command -v gh >/dev/null 2>&1; then
-    if create_repo_with_gh; then CREATED=1; fi
+    set +e
+    create_repo_with_gh
+    status=$?
+    set -e
+    if [[ $status -eq 0 ]]; then CREATED=1; fi
+    if [[ $status -eq 2 ]]; then
+        echo "Could not create $OWNER/$REPO_NAME with the GitHub CLI." >&2
+        echo "Check 'gh auth status' (it can be installed without being logged in)," >&2
+        echo "or export GH_TOKEN so the REST API fallback can be used." >&2
+        exit 1
+    fi
 else
     set +e
     create_repo_with_api
